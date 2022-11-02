@@ -9,4 +9,5 @@ class Paper(NamedTuple):
     keywords: List[str] = []
     conference: str = ""
     tags: List[str] = []
-    scores: List[float] = []
+    ratings: List[float] = []
+    openreview_url: str = ""
