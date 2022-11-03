@@ -68,6 +68,12 @@ def _init_2022(db_dir: Path):
             paper.insert_to_sqlite_table(conn)
         time.sleep(0.1)
 
+
 def init(db_dir: Path, year: int = 2022):
     if year == 2022:
         _init_2022(db_dir)
+
+
+def get_db(db_dir: Path, year: int = 2022) -> Path:
+    return Path(db_dir, "neurips_2022.db")
+    
