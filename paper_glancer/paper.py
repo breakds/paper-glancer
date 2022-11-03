@@ -15,7 +15,7 @@ class Paper(NamedTuple):
     @staticmethod
     def make_sqlite_table(conn):
         with conn:
-            conn.execute("CREATE TABLE papers(title, authors, year, abstract, keywords, conference, tags, ratings, openreview_url, conclusion)")
+            conn.execute("CREATE TABLE IF NOT EXISTS papers(title, authors, year, abstract, keywords, conference, tags, ratings, openreview_url, conclusion)")
 
     def insert_to_sqlite_table(self, conn):
         conn.execute("INSERT INTO papers VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",

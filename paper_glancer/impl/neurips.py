@@ -31,7 +31,7 @@ def _init_2022(db_dir: Path):
 
     logger.info("Going through a list of {} papers ...", len(paper_cards))
     stub = OpenReviewStub()
-    for paper_card in tqdm(paper_cards, mininterval=0, miniter=1):
+    for paper_card in tqdm(paper_cards, mininterval=0.1, maxinterval=5.0):
         m = paper_id_pattern.match(paper_card["id"])
         if m is None:
             logger.warning("Cannot parse paper id from {}, skipping", paper_card["id"])
