@@ -14,7 +14,7 @@ class OpenReviewStub(object):
             password=password)
 
     def get_paper_attributes(self, id: str) -> dict:
-        note = self._client.get_all_notes("TscdNx8udf5", details="directReplies")[0]
+        note = self._client.get_all_notes(id, details="directReplies")[0]
         attributes = {
             "title": note.content["title"],
             "authors": note.content["authors"],
