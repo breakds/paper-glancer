@@ -3,6 +3,7 @@ import sqlite3
 
 from loguru import logger
 import click
+import numpy as np
 
 from .impl import neurips
 
@@ -27,7 +28,7 @@ def init(conference: str, db: Path):
               default="/home/breakds/dataset/paper_glancer")
 def blog(conference: str, db: Path):
     path = None
-    
+
     if conference == "neurips2022":
         path = neurips.get_db(db, 2022)
 
@@ -46,10 +47,22 @@ def blog(conference: str, db: Path):
             y = [t(e) for e in y]
         return y
 
-    i = 0
+    entries = []
+    agg_ratingss = []
     while (entry := result.fetchone()) is not None:
-        i = i + 1
         title, authors, ratings, openreview_url, abstract = entry
+        entries.append((title, authors, ratings, openreview_url, abstract))
+        ratings = _to_list(ratings, [float])
+        median = np.median(ratings)
+        mean = np.mean(ratings)
+        agg_ratingss.append(median * 100.0 + mean)
+
+    indices = np.argsort(-np.array(agg_ratingss))
+
+    i = 0
+    for j in indices:
+        i = i + 1
+        title, authors, ratings, openreview_url, abstract = entries[j]
         authors = _to_list(authors, [lambda x: x[1:-1]])
         ratings = _to_list(ratings, [float, int])
         print(f"#### {i}. {title}")
